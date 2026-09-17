@@ -16,7 +16,8 @@ from .selection import consensus
 RED='#D92323';GREEN='#007A3D';BLUE='#1558A6';GOLD='#D4AC0D'
 COLORS={'reference':'black','Reference':'black','Ref.':'black','Selected':RED,
         'selected':RED,'Loss comp.':GREEN,'Loss Comp.':GREEN,'loss':GREEN,'Oracle':GOLD,
-        'Loss comparator':GREEN,'theta*_Pyo':RED,r'$\theta^*_{\mathrm{Pyo}}$':RED}
+        'Loss comparator':GREEN,'theta*_Pyo':RED,r'$\theta^*_{\mathrm{Pyo}}$':RED,
+        r'$\theta^{*}_{\mathrm{Pyo}}$':RED}
 
 def frame(name):return pd.read_csv(ROOT/'data/figures'/name)
 
@@ -40,7 +41,7 @@ def main():
     for panel,ax in zip('BCDE',axs.flat):
         z=np.load(ROOT/f'data/figures/figure1_{panel}.npz')
         ref=z['reference_curve'];norm=ref/ref.max()
-        for key,label,col in [('reference_curve','Ref.','black'),('retained_curve','Retained',RED),('ablated_curve','Ablated',BLUE)]:
+        for key,label,col in [('reference_curve','Ref.','black'),('retained_curve','Retained',GREEN),('ablated_curve','Ablated',RED)]:
             y=norm if key=='reference_curve' else z[key]*norm.mean()/z[key].mean()
             ax.plot(z['x_axis'],y,label=label,color=col,lw=1)
         ax.set_title('Figure 1'+panel);ax.set_xlabel(r'Raman shift (cm$^{-1}$)');ax.legend(fontsize=8)
@@ -49,13 +50,15 @@ def main():
     ranks,entry,order=consensus(q,ids)
     mask=np.char.startswith(tids,'pyocyanin_experimental');pr,pe,po=consensus(q[mask],ids)
     f3=frame('figure3.csv');fig,axs=plt.subplots(2,2,figsize=(11,7))
-    for j in range(4):axs[0,0].plot(range(1,7),pr[:,po[j]]/len(ids),'-o',label=f'Candidate {j+1}')
+    for j,col in enumerate([RED,'#6464B8','#55A6A6','#804580']):axs[0,0].plot(range(1,7),pr[:,po[j]]/len(ids),'-o',label=f'Candidate {j+1}',color=col)
     axs[0,0].set(xlabel='Window',ylabel='Normalized rank',title='Figure 3B');axs[0,0].invert_yaxis();axs[0,0].legend(fontsize=8)
     ps=np.sort(pe);unique,counts=np.unique(ps,return_counts=True)
     axs[0,1].step(np.r_[0,unique],np.r_[0,np.cumsum(counts)],where='post');axs[0,1].set(xlim=(pe.min()-.003,pe[po[3]]+.003),ylim=(0,5),xlabel='p',ylabel='Common-set size',title='Figure 3C')
     d=f3[f3.panel=='D']
-    for key,part in d.groupby('series',sort=False):axs[1,0].plot(part.x,part.source_y,'-o',label=key,color=COLORS.get(key))
-    axs[1,0].set(xlabel='Window',ylabel='Recovery score q',title='Figure 3D');axs[1,0].legend(fontsize=8)
+    series=list(d.series.unique())
+    bp=axs[1,0].boxplot([d[d.series==key].source_y.to_numpy() for key in series],tick_labels=['Loss comp.',r'$\theta^*_{\mathrm{Pyo}}$','Oracle'],patch_artist=True)
+    for box,key in zip(bp['boxes'],series):box.set_facecolor(COLORS[key]);box.set_alpha(.3)
+    axs[1,0].set(ylabel='Recovery score q',title='Figure 3D')
     spectra(axs[1,1],f3[f3.panel=='E'],'x','display_y','series');axs[1,1].set_title('Figure 3E')
     finish(fig,'Figure_3_B_E',a.output)
     val=pd.read_csv(ROOT/'results/validation_selected_vs_loss.csv');index=pd.read_json(ROOT/'data/validation_index.json')
@@ -70,15 +73,19 @@ def main():
     data=frame('figure4_spectra.csv')
     for panel,ax in zip(['(C)','(D)'],axs[1]):spectra(ax,data[data.panel==panel],'wavenumber','normalized_intensity','curve');ax.set_title('Figure 4'+panel)
     finish(fig,'Figure_4',a.output)
-    fig,axs=plt.subplots(2,2,figsize=(11,7));df=frame('figure5_spectra.csv')
-    for panel,ax in zip('AB',axs[0]):
+    fig=plt.figure(figsize=(11,7));gs=fig.add_gridspec(2,2)
+    upper=[fig.add_subplot(gs[0,j]) for j in range(2)];lower=fig.add_subplot(gs[1,:])
+    df=frame('figure5_spectra.csv')
+    for panel,ax in zip('AB',upper):
         sub=df[df.panel==panel];spectra(ax,sub,'raman_shift_cm_1','display_intensity','curve');ax.set_title('Ad5 '+str(sub.task_window.iloc[0]))
     scores=pd.read_csv(ROOT/'results/test_scores.csv');datasets=list(scores.dataset.unique())
-    for j,(key,label,col) in enumerate([('global_q','Selected',RED),('loss_q','Loss Comp.',GREEN)]):
-        parts=[scores[scores.dataset==d][key].to_numpy() for d in datasets]
-        bp=axs[1,j].boxplot(parts,tick_labels=datasets,showmeans=True,patch_artist=True)
-        for box in bp['boxes']:box.set_facecolor(col);box.set_alpha(.3)
-        axs[1,j].set(title=label,ylabel='Absolute recovery score q')
+    delta=scores.global_q-scores.loss_q
+    np.testing.assert_allclose(delta,scores.delta_q_global_minus_loss,rtol=0,atol=1e-14)
+    parts=[delta[scores.dataset==d].to_numpy() for d in datasets]
+    bp=lower.boxplot(parts,tick_labels=datasets,whis=1.5,showfliers=False,patch_artist=True)
+    for box in bp['boxes']:box.set_facecolor(RED);box.set_alpha(.3)
+    lower.axhline(0,color='black',lw=.8)
+    lower.set(title='Figure 5C: test recovery difference',xlabel='Virus type',ylabel=r'$\Delta q_i$ (selected minus loss)')
     finish(fig,'Figure_5',a.output)
     overview=frame('figureS3_overview.csv');ds=list(overview.dataset_id.unique())
     ds.sort(key=lambda x:(0 if 'pyocyanin' in x else 1 if 'dnarna' in x else 2,x))
