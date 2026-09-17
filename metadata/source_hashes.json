@@ -1,0 +1,368 @@
+[
+  {
+    "file": "sers/model.py",
+    "source_name": "model.py",
+    "source_sha256": "f0eee3621629614ad2520acaa597c82f2953edec94ba685c8d1816e7c3ffeb2a",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "sers/training.py",
+    "source_name": "trial_runner.py",
+    "source_sha256": "d72d7a134be654b4730888d4b21adce7eb8148b7dc9850c53475b45cbb03a4da",
+    "operation": "relative imports; random-candidate sampler and unused binary label removed"
+  },
+  {
+    "file": "sers/features.py",
+    "source_name": "features.py",
+    "source_sha256": "cd9ee3f9f9b47fd436dc6e4e0b6d6ef2e1291ccdbe35481cfdf3787ece344ace",
+    "operation": "unused binary label helper removed"
+  },
+  {
+    "file": "sers/baselines.py",
+    "source_name": "run_validation_replays_baselines.py",
+    "source_sha256": "f024af802c2b49e25f3f9ff87a06f01189368f53c4466f88fcdce29ed105c8ca",
+    "operation": "only six actual fit functions/classes extracted without numerical changes"
+  },
+  {
+    "file": "results/validation_scores.npz",
+    "source_name": "all37_q_metrics.npz",
+    "source_sha256": "de17a5decfaa32efc00626c2346dee2335b1556911940a83c540dc90e8d4406d",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "results/validation_selected_vs_loss.csv",
+    "source_name": "validation_selected_vs_loss.csv",
+    "source_sha256": "c03a25cbfcc01112c196ca28b3c8281a6899fab1d29934d602f9b230b70a7ca8",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/selected_theta_task_scores.csv",
+    "source_name": "selected_theta_task_scores.csv",
+    "source_sha256": "fcb97063c9500a771b2c458847b45ddcceb96d91c15e2568ce009580e7747560",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/test_loss_selection.csv",
+    "source_name": "losscomp_selection_frozen.csv",
+    "source_sha256": "6d6fb6937375722ddb6ade2c9f2d7597bf528577158f150312fa2e55d3771d68",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/test_scores.csv",
+    "source_name": "heldout_test_global_vs_loss_replay.csv",
+    "source_sha256": "3a174441497f223a15b9a14ded6b2affdad55c85b3fc83546168be48475da413",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/robustness/dataset_summary.csv",
+    "source_name": "dataset_summary.csv",
+    "source_sha256": "8ac008ae4941ee9c75aeac5c29edeccc602023804a90ff0d53e7b71c0fb8e519",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/robustness/domain_summary.csv",
+    "source_name": "domain_summary.csv",
+    "source_sha256": "8905dc0443b4e3f24b00646b42b8d837d512bb0cd95a4646f3f7e0d5c5249789",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/robustness/pairwise_seed_summary.csv",
+    "source_name": "pairwise_seed_summary.csv",
+    "source_sha256": "c450ffe69f3518736f4163f70e2ea36a7bad660afa2cafce303b9d3945bba80e",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/robustness/robustness_long.csv",
+    "source_name": "robustness_long.csv",
+    "source_sha256": "84ee56f7b8eec3df8822636d240b3625265d7c080581201c66a5e31feb36aa5d",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/robustness/seed_dataset_summary.csv",
+    "source_name": "seed_dataset_summary.csv",
+    "source_sha256": "de3d97766075d03d0cdbede691d303ba8461349ba58fc0480f8c01f98b91035a",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/robustness/seed_domain_summary.csv",
+    "source_name": "seed_domain_summary.csv",
+    "source_sha256": "44885f67d61fba3596b936a89cb1960976876eb3798c2ad5d7182f1c6998c002",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/robustness/task_robustness.csv",
+    "source_name": "task_robustness.csv",
+    "source_sha256": "b5f151319121e0e6035d75dc5f8771bb2354be902c2c7054226a24c23fb03ce5",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/hidden_size/h_sensitivity_dataset_summary.csv",
+    "source_name": "h_sensitivity_dataset_summary.csv",
+    "source_sha256": "9559b8ddccb1767523bbd869b17685ead23817ef0e098891b1101819a109db24",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/hidden_size/h_sensitivity_paired_results.csv",
+    "source_name": "h_sensitivity_paired_results.csv",
+    "source_sha256": "c05f120071f86e9362f01096560d51b16cfa18da1d312028162dc79663c41528",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/hidden_size/h_sensitivity_seed_summary.csv",
+    "source_name": "h_sensitivity_seed_summary.csv",
+    "source_sha256": "b99750da61dddc0f5647143cf58a6af4f97bc75e429f7bc46d268bf03ba2ad07",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/hidden_size/h_sensitivity_summary.csv",
+    "source_name": "h_sensitivity_summary.csv",
+    "source_sha256": "005f279fade4447244b628f7d9a1824c6cb894a7efa4dbb45364380cea0a412e",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/hidden_size/h_sensitivity_task_results.csv",
+    "source_name": "h_sensitivity_task_results.csv",
+    "source_sha256": "56b2dde9440efcd5bd059f65cd19f1ead52f4583a323eca48b562bbc73869f14",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/window_size/k57_summary.csv",
+    "source_name": "k57_summary.csv",
+    "source_sha256": "a44edd14774d976e92a312799a467487fef774e09750cdcc2411bbee06b42e06",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/window_size/k57_task_scores.csv",
+    "source_name": "k57_task_scores.csv",
+    "source_sha256": "b749a96f5f62f16551cfcef309402bd41099854833390f71b26598d0a2e9d92b",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/baselines/baseline_dataset_summary.csv",
+    "source_name": "baseline_dataset_summary.csv",
+    "source_sha256": "f91e9616bc9e0025bb8c9b081fbde468bb668a255b9630acf0cbe256e23bf545",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/baselines/baseline_task_scores.csv",
+    "source_name": "baseline_task_scores.csv",
+    "source_sha256": "294837c403c80b46664ad14c846f74e3c5b25f8ba195adfb9718b5262de26ca7",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/baselines/coefficient_values_long.csv",
+    "source_name": "coefficient_values_long.csv",
+    "source_sha256": "91ee56af2c0ef4e6274dd0691e9b66181d2e7684424d43fa96c9dc149d89bcff",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/baselines/curve_artifact_index.csv",
+    "source_name": "curve_artifact_index.csv",
+    "source_sha256": "4aa53fa2044a6d3fa5e4203f1b1bd7ee12cd5c40a3ce8393b1d48ed82294de33",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/baselines/selected_replay_metrics.csv",
+    "source_name": "selected_replay_metrics.csv",
+    "source_sha256": "45c03a1a268e9064d021ccbeea0f390e62e29898c7586264897127c6e187cbff",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "results/test_coefficients/s7_coefficient_values_long.csv",
+    "source_name": "s7_coefficient_values_long.csv",
+    "source_sha256": "86e95231abf8f223bd76c8d308c50728ee474af9e37e6f65d0488f3b0c5ff2c1",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "data/figures/figure1_cases.csv",
+    "source_name": "fig1_b_e_all37_qretained_gt097_winners_frozen.csv",
+    "source_sha256": "bc16b642cb931342afd0f482a86bfdf008ff19ab015334a52a2bad09c3fb6cbf",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "data/figures/figure1_B.npz",
+    "source_name": "arrays.npz",
+    "source_sha256": "0a4b52df8fd8a50f1e9911cb03e109f9dfa223744e9f79a7551ebe00011e2309",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figure1_C.npz",
+    "source_name": "arrays.npz",
+    "source_sha256": "3435ced3a4224b765df7401317b9231d1e2b9aeb284973841d5e3a2f54485fe5",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figure1_D.npz",
+    "source_name": "arrays.npz",
+    "source_sha256": "741189e8b217002fc58dea2b425119bcbe769a0da3e7865facf84d24504679e7",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figure1_E.npz",
+    "source_name": "arrays.npz",
+    "source_sha256": "7ab58e29a20f85721e4e51d102087a5ad4c2daaddc1906ae3589cfdeb43fbc74",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figure3.csv",
+    "source_name": "Figure_3_full_rule_corrected_v2_data.csv",
+    "source_sha256": "f867f7b9b5701111542e846d47c3ddf7b4d79330c09e859a6953841e6db04fa3",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "data/figures/figure5_spectra.csv",
+    "source_name": "Figure_5_representative_curves_verified.csv",
+    "source_sha256": "a2713af3856e2f1e651407e963fe2dc4cf98bd6b45240464290f28d5cc319182",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_S2.png",
+    "source_name": "Figure_S2_network_architecture_notation_corrected_20260819_v1.png",
+    "source_sha256": "4dd161c46bd533828f79e88c044cc0d90fcbc5685b8043507c6f0e0ee5032f38",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "figures/Figure_S3.png",
+    "source_name": "Figure_S3_spacing_20260916_v2.png",
+    "source_sha256": "6c0d95e23a670213d0b9878d988b4254ec5cbb2452e2ce00119c80e76fee5c11",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figureS3_recovery.csv",
+    "source_name": "Figure_S3_rule_aligned_20260909_v1_panelC_data.csv",
+    "source_sha256": "58d53ce113522b1d740d37248ac043668f06b16b7cacbff7977efad7c28e03b7",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "data/figures/figureS3_overview.csv",
+    "source_name": "figure_data_overview_combined_plotted_spectra.csv",
+    "source_sha256": "d9b0a07ec733120f69dd17485127ba01d06f54ed6c9df9b49992561288495904",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_S4.png",
+    "source_name": "Figure_S4_presentation_revision_20260818_v1.png",
+    "source_sha256": "5e79587c03859d93398494da877834110719dbca65a187ce2888582afaf4c543",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figureS4_scores.csv",
+    "source_name": "Figure_S4_presentation_revision_20260818_v1_scores.csv",
+    "source_sha256": "9a1961f4dfa24c414770bdfdd605735f25ae4dacc02989729ad80cb74a6c1d38",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "data/figures/figureS4_curves.csv",
+    "source_name": "Figure_S4_presentation_revision_20260818_v1_curves.csv",
+    "source_sha256": "a188a1982649541b60c9ad59ba57190409cea54a4a91c8a32f4f0170aa6ee99c",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_S5.png",
+    "source_name": "Figure_S5_presentation_revision_20260818_v1.png",
+    "source_sha256": "c82e652a2ff37cd4ce67aabaab4b8661845e634bf6dc66adb856a534d300ea3b",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figureS5_data.csv",
+    "source_name": "Figure_S5_presentation_revision_20260818_v1_data.csv",
+    "source_sha256": "cf75abfa3413638922e112cb3504476c887a28cea40e53825fdab5349363a702",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_S6.png",
+    "source_name": "Figure_S6_presentation_revision_20260818_v1.png",
+    "source_sha256": "7d0aade868fc304eea2e0e206753965416992ea708de5ba553e7062c7992fc51",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figureS6_data.csv",
+    "source_name": "Figure_S6_presentation_revision_20260818_v1_data.csv",
+    "source_sha256": "9fb5b63e6ca44e7881da17c72425167aae003e819c7af4e7111af955b867ad2a",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_S7.png",
+    "source_name": "Figure_S7_presentation_revision_20260818_v1.png",
+    "source_sha256": "c7bc51e7cd7ad4463aa1fd48bc2aa1316549b77dca2e7528b20e85491a4df830",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figureS7_data.csv",
+    "source_name": "Figure_S7_presentation_revision_20260818_v1_data.csv",
+    "source_sha256": "4a57402646ab33e2a8eb6b3d0e3c73b5a32ee66d87ac6e8703671f1b7f5bfc4f",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_S8.png",
+    "source_name": "Figure_S8_presentation_revision_20260818_v1.png",
+    "source_sha256": "0becb554b3fbef9a61182434b3111dfc4863e528551436deef1ca56663fa7967",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figureS8_data.csv",
+    "source_name": "Figure_S8_presentation_revision_20260818_v1_data.csv",
+    "source_sha256": "f9d3f3d50d03326f2ad3fa675d1e6685bd5b8d279286a473c0e9784ee07b9248",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_S9.png",
+    "source_name": "Figure_S9_fixed_background_mcrals_diagnostic_20260824_v3.png",
+    "source_sha256": "56b35a1ed57c21334e94666b46acf9661e4deb42b77bea7ff8f7f3fe05627963",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figureS9.csv",
+    "source_name": "Figure_S9_fixed_background_mcrals_diagnostic_20260824_v3_data.csv",
+    "source_sha256": "3668b77168fd8cf592f33aecbf5220f444358e9b1d09ac57904419e31f08e4fe",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_S10.png",
+    "source_name": "figure_h_sensitivity_dense16_128_finalcontract_v5_single_seed_si_curve_style.png",
+    "source_sha256": "a3dee01a886f08a2a61ded1958121f59a2a21c17caa6bf9527995a2f68d04698",
+    "operation": "byte-identical"
+  },
+  {
+    "file": "data/figures/figureS10_data.csv",
+    "source_name": "figure_h_sensitivity_dense16_128_finalcontract_v5_single_seed_si_curve_style_data.csv",
+    "source_sha256": "8bbfdd324dd569d546e4d5c7a9cedbbecdce9a268368ddaf0f5b52b3ecf687ac",
+    "operation": "private path columns removed; scientific numeric fields retained"
+  },
+  {
+    "file": "figures/Figure_1.png",
+    "source_name": "09162026_SERS_Manuscript_zhao.docx::word/media/image1.png",
+    "source_sha256": "17fd5775f9ea0073056f28489fe25488589ed7712471defc42d05437cf72e8cf",
+    "operation": "byte-identical extraction from current main manuscript"
+  },
+  {
+    "file": "figures/Figure_2.png",
+    "source_name": "09162026_SERS_Manuscript_zhao.docx::word/media/image2.png",
+    "source_sha256": "026412e8e852c9ecce014dd9b5f32ae30f2e3b3f8861b11ea3cd332ea983647d",
+    "operation": "byte-identical extraction from current main manuscript"
+  },
+  {
+    "file": "figures/Figure_3.png",
+    "source_name": "09162026_SERS_Manuscript_zhao.docx::word/media/image3.png",
+    "source_sha256": "4bcb96b921136549c324f3072171bbd16a13db3e216300f8c4df8e819f470a87",
+    "operation": "byte-identical extraction from current main manuscript"
+  },
+  {
+    "file": "figures/Figure_4.png",
+    "source_name": "09162026_SERS_Manuscript_zhao.docx::word/media/image4.png",
+    "source_sha256": "645e0baad9c907ac56a5aa4e9c1e4706dfec8c177e2600d9d696b05dd2f5a50d",
+    "operation": "byte-identical extraction from current main manuscript"
+  },
+  {
+    "file": "figures/Figure_5.png",
+    "source_name": "09162026_SERS_Manuscript_zhao.docx::word/media/image5.png",
+    "source_sha256": "a3fc23f1f196fdf9645b7bd5f47c2367566efd8fc38e046c2c5e03b668ddbe52",
+    "operation": "byte-identical extraction from current main manuscript"
+  },
+  {
+    "file": "figures/Figure_S1.png",
+    "source_name": "Figure_S1_teacher_methods_physics_notation_20260819_v2r4.png",
+    "source_sha256": "a2efebfa060187383f59924538c518b0e82f48b907a460c75f0a7d8993a3d5c3",
+    "operation": "byte-identical approved standalone schematic; no SI document read"
+  }
+]
