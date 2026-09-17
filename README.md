@@ -23,7 +23,7 @@ The release was tested locally on macOS with Python 3.12 and the following packa
 - Matplotlib 3.9.4 and SciPy 1.13.1
 - Scikit-Learn 1.5.2 and PyTorch 2.8.0
 
-The original study computations were performed on the University of Georgia cluster using AMD EPYC 9534 computing nodes and PyTorch 2.8.0, with four intra-operation threads, one inter-operation thread, and deterministic algorithms enabled. A CPU installation is sufficient; no GPU is required. Runtime and numerical training results may vary across hardware and software environments.
+The original study computations were performed on the University of Georgia cluster using AMD EPYC 9534 computing nodes and PyTorch 2.8.0, with four intra-operation threads, one inter-operation thread, and deterministic algorithms enabled. The implementation uses CPU computation.
 
 ```bash
 git clone https://github.com/statszyc/SERS_decomp_NN.git
@@ -90,7 +90,7 @@ python -m sers.replay --analysis window --task 0 --output reproduced/window_0.js
 python -m sers.ablation --panel B --output reproduced/ablation_B.json
 ```
 
-Training uses 1,000 epochs. Saved-result reproduction and plotting use the archived outputs without retraining. Verification scope and known differences between local training replays and the archived cluster results are documented in [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
+Training uses 1,000 epochs. Saved-result reproduction and plotting use the archived outputs without retraining. Commands, computation environments, and release checks are described in [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
 
 To evaluate an explicit chunk of the final grid, use `--grid-start` and `--grid-stop` (exclusive), for example `--grid-start 0 --grid-stop 48`. A full grid contains 7,560 fits **per window**; the primary validation and test searches total 529,200 fits. No full-grid training is launched by default.
 

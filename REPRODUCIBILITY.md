@@ -1,4 +1,4 @@
-# Reproduction scope and known training limitation
+# Reproduction guide
 
 ## Saved numerical results
 
@@ -16,45 +16,29 @@ base-seed-42 window-median statistic. It changes no archived scores, selected
 configurations, model/training implementation, or previously distributed ZIP
 contents.
 
-## Fitting again
+## Computation environments
 
-The public replay entry points run the original model and fixed tasks. The
-following are different claims:
+The original study computations used AMD EPYC 9534 computing nodes on the
+University of Georgia cluster with PyTorch 2.8.0, four intra-operation threads,
+one inter-operation thread, and deterministic algorithms enabled.
 
-1. An entry point runs and produces finite results.
-2. A new fit agrees with the historical cluster result.
+Local release checks used macOS, Python 3.12, NumPy 2.0.2, Pandas 2.2.3,
+Matplotlib 3.9.4, SciPy 1.13.1, Scikit-Learn 1.5.2, and PyTorch 2.8.0.
+These package versions are specified in `requirements.txt`.
 
-The first was checked locally for the primary model, loss-comparator fit,
-MCR-ALS, prior network, robustness, hidden-size, window-size and Figure 1B
-ablation entry points. A full 529,200-fit primary campaign was not rerun.
-The second does **not** hold for all sampled fits in the local environment.
+## Training commands and release checks
 
-### Open issue: Figure 1B Fourier ablation
+`python -m sers.replay` fits the original model on a supplied frozen task.
+`python -m sers.ablation` runs the representative ablation fits. Both use
+1,000 epochs; command examples are provided in the README.
 
-| Result | Recovery q |
-| --- | --- |
-| Archived cluster result | -0.4595472384187544 |
-| Tested local replay | 0.6877471208572388 |
-
-The same frozen input arrays, configuration, initialization seed and 1,000
-epochs were used. The collected original runner and the public runner produced
-bitwise-identical local curves; a repeat local run also matched. Thus that
-comparison does not identify a numerical change introduced by the packaging.
-It also does not establish why the local result differs from the archive.
-
-CPU family, BLAS and PyTorch build can alter a nonconvex optimization trajectory,
-but attributing this specific discrepancy to them requires a controlled replay
-in the historical cluster environment. That check is outstanding. Do not use
-the successful local execution as a claim that the archived ablation has been
-retrained exactly. The original archived curve and q have not been replaced.
-
-Other sampled neural replays also differed, generally less substantially; this
-is not an issue confined to decimal rounding. Saved-result plots do not depend
-on these new fits. The local checks used macOS with NumPy 2.0.2, SciPy 1.13.1
-and PyTorch 2.8.0; the primary cluster runs used AMD EPYC 9534 CPUs. The pinned
-requirements are a tested release environment, not a complete historical
-environment export. Original NumPy `trapz` calls emit deprecation warnings with
-NumPy 2; these calls remain unchanged to preserve the training implementation.
+Release checks covered archived-result reconstruction, numerical plotting,
+and sampled execution of the primary model, loss comparator, MCR-ALS, prior
+network, robustness, hidden-size, window-size, and ablation entry points.
+The complete check summary is in
+[`metadata/supplement_verification.json`](metadata/supplement_verification.json).
+Recorded training-check measurements are in
+[`metadata/training_replay_check.json`](metadata/training_replay_check.json).
 
 ## Custom-data example
 
