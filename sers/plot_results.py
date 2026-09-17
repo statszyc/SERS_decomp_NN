@@ -1,0 +1,127 @@
+"""Replot final numerical panels from the released data, without retraining.
+
+The original publication layouts are archived separately in figures/. These
+compact plots reproduce the numerical content, not pixel-identical typography.
+"""
+import argparse
+from pathlib import Path
+import numpy as np
+import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from .io import ROOT
+from .selection import consensus
+
+RED='#D92323';GREEN='#007A3D';BLUE='#1558A6';GOLD='#D4AC0D'
+COLORS={'reference':'black','Reference':'black','Ref.':'black','Selected':RED,
+        'selected':RED,'Loss comp.':GREEN,'Loss Comp.':GREEN,'loss':GREEN,'Oracle':GOLD,
+        'Loss comparator':GREEN,'theta*_Pyo':RED,r'$\theta^*_{\mathrm{Pyo}}$':RED}
+
+def frame(name):return pd.read_csv(ROOT/'data/figures'/name)
+
+def finish(fig,name,out):
+    fig.tight_layout()
+    for ext in ['png','pdf']:fig.savefig(out/(name+'.'+ext),dpi=180,bbox_inches='tight')
+    plt.close(fig)
+
+def spectra(ax,df,x,y,group):
+    for key,part in df.groupby(group,sort=False):
+        ax.plot(part[x],part[y],label=key,color=COLORS.get(key),lw=1.2)
+    ax.set_xlabel(r'Raman shift (cm$^{-1}$)');ax.set_ylabel('Display intensity (a.u.)')
+    ax.legend(fontsize=8)
+
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--output',type=Path,default=Path('reproduced/plots'))
+    a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
+    plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,'axes.spines.right':False})
+    fig,axs=plt.subplots(2,2,figsize=(11,7))
+    for panel,ax in zip('BCDE',axs.flat):
+        z=np.load(ROOT/f'data/figures/figure1_{panel}.npz')
+        ref=z['reference_curve'];norm=ref/ref.max()
+        for key,label,col in [('reference_curve','Ref.','black'),('retained_curve','Retained',RED),('ablated_curve','Ablated',BLUE)]:
+            y=norm if key=='reference_curve' else z[key]*norm.mean()/z[key].mean()
+            ax.plot(z['x_axis'],y,label=label,color=col,lw=1)
+        ax.set_title('Figure 1'+panel);ax.set_xlabel(r'Raman shift (cm$^{-1}$)');ax.legend(fontsize=8)
+    finish(fig,'Figure_1_B_E',a.output)
+    qz=np.load(ROOT/'results/validation_scores.npz');q=qz['q'];ids=qz['theta_ids'];tids=qz['task_ids']
+    ranks,entry,order=consensus(q,ids)
+    mask=np.char.startswith(tids,'pyocyanin_experimental');pr,pe,po=consensus(q[mask],ids)
+    f3=frame('figure3.csv');fig,axs=plt.subplots(2,2,figsize=(11,7))
+    for j in range(4):axs[0,0].plot(range(1,7),pr[:,po[j]]/len(ids),'-o',label=f'Candidate {j+1}')
+    axs[0,0].set(xlabel='Window',ylabel='Normalized rank',title='Figure 3B');axs[0,0].invert_yaxis();axs[0,0].legend(fontsize=8)
+    ps=np.sort(pe);unique,counts=np.unique(ps,return_counts=True)
+    axs[0,1].step(np.r_[0,unique],np.r_[0,np.cumsum(counts)],where='post');axs[0,1].set(xlim=(pe.min()-.003,pe[po[3]]+.003),ylim=(0,5),xlabel='p',ylabel='Common-set size',title='Figure 3C')
+    d=f3[f3.panel=='D']
+    for key,part in d.groupby('series',sort=False):axs[1,0].plot(part.x,part.source_y,'-o',label=key,color=COLORS.get(key))
+    axs[1,0].set(xlabel='Window',ylabel='Recovery score q',title='Figure 3D');axs[1,0].legend(fontsize=8)
+    spectra(axs[1,1],f3[f3.panel=='E'],'x','display_y','series');axs[1,1].set_title('Figure 3E')
+    finish(fig,'Figure_3_B_E',a.output)
+    val=pd.read_csv(ROOT/'results/validation_selected_vs_loss.csv');index=pd.read_json(ROOT/'data/validation_index.json')
+    val['dataset']=val.task_id.map(index.set_index('task_id').dataset_id);val['oracle_q']=q.max(1)
+    fig,axs=plt.subplots(2,2,figsize=(12,8));values,counts=np.unique(entry,return_counts=True)
+    axs[0,0].step(values,np.cumsum(counts),where='post',color=BLUE);axs[0,0].set(xlabel='p',ylabel='Common-set size',title='Figure 4A')
+    groups=list(val.dataset.unique());xs=np.arange(len(groups))
+    for j,(col,label,color) in enumerate([('loss_q','Loss Comp.',GREEN),('selected_q','Selected',RED),('oracle_q','Oracle',GOLD)]):
+        sub=val.groupby('dataset')[col].agg(['mean','std']).loc[groups]
+        axs[0,1].bar(xs+(j-1)*.24,sub['mean'],.23,yerr=sub['std'],label=label,color=color,capsize=2)
+    axs[0,1].set_xticks(xs,[s.replace('_full','').replace('_','\n') for s in groups],fontsize=8);axs[0,1].set(ylabel='Recovery score q',title='Figure 4B');axs[0,1].legend(fontsize=8)
+    data=frame('figure4_spectra.csv')
+    for panel,ax in zip(['(C)','(D)'],axs[1]):spectra(ax,data[data.panel==panel],'wavenumber','normalized_intensity','curve');ax.set_title('Figure 4'+panel)
+    finish(fig,'Figure_4',a.output)
+    fig,axs=plt.subplots(2,2,figsize=(11,7));df=frame('figure5_spectra.csv')
+    for panel,ax in zip('AB',axs[0]):
+        sub=df[df.panel==panel];spectra(ax,sub,'raman_shift_cm_1','display_intensity','curve');ax.set_title('Ad5 '+str(sub.task_window.iloc[0]))
+    scores=pd.read_csv(ROOT/'results/test_scores.csv');datasets=list(scores.dataset.unique())
+    for j,(key,label,col) in enumerate([('global_q','Selected',RED),('loss_q','Loss Comp.',GREEN)]):
+        parts=[scores[scores.dataset==d][key].to_numpy() for d in datasets]
+        bp=axs[1,j].boxplot(parts,tick_labels=datasets,showmeans=True,patch_artist=True)
+        for box in bp['boxes']:box.set_facecolor(col);box.set_alpha(.3)
+        axs[1,j].set(title=label,ylabel='Absolute recovery score q')
+    finish(fig,'Figure_5',a.output)
+    overview=frame('figureS3_overview.csv');ds=list(overview.dataset_id.unique())
+    ds.sort(key=lambda x:(0 if 'pyocyanin' in x else 1 if 'dnarna' in x else 2,x))
+    fig,axs=plt.subplots((len(ds)+1)//2,2,figsize=(12,3*((len(ds)+1)//2)),squeeze=False)
+    for dataset,ax in zip(ds,axs.flat):
+        sub=overview[overview.dataset_id==dataset]
+        for level,part in sub.groupby('display_order',sort=True):ax.plot(part.wavenumber,part.scaled_intensity_offset,label=f'Level {level}',lw=1)
+        ax.set_title(dataset);ax.set_xlabel(r'Raman shift (cm$^{-1}$)');ax.legend(fontsize=7)
+    for ax in list(axs.flat)[len(ds):]:ax.set_visible(False)
+    finish(fig,'Figure_S3_overview',a.output)
+    fig,axs=plt.subplots(2,1,figsize=(8,6));df=frame('figureS3_recovery.csv')
+    for panel,ax in zip(['C_before','C_after'],axs):spectra(ax,df[df.panel==panel],'wavenumber','plotted_intensity','curve');ax.set_title(panel.replace('_',' '))
+    finish(fig,'Figure_S3_C',a.output)
+    df=frame('figureS4_scores.csv');groups=list(df.dataset_id.unique());fig,axs=plt.subplots(2,2,figsize=(12,8))
+    for dataset,ax in zip(groups,axs.flat):
+        sub=df[df.dataset_id==dataset];methods=list(sub.method.unique())
+        ax.boxplot([sub[sub.method==m].q for m in methods],tick_labels=methods,showmeans=True)
+        ax.tick_params(axis='x',labelrotation=25);ax.set_title(dataset);ax.set_ylabel('q')
+    finish(fig,'Figure_S4_scores',a.output)
+    df=frame('figureS4_curves.csv');groups=list(df.task_id.unique());fig,axs=plt.subplots(1,len(groups),figsize=(6*len(groups),4),squeeze=False)
+    for task,ax in zip(groups,axs.flat):spectra(ax,df[df.task_id==task],'raman_shift_cm-1','display_intensity','method');ax.set_title(task.split('__')[0],fontsize=9)
+    finish(fig,'Figure_S4_curves',a.output)
+    for num,filename,method in [(5,'figureS5_data.csv','prior_dual_network'),(9,'figureS9.csv','mcrals')]:
+        df=frame(filename);fig,axs=plt.subplots(1,2,figsize=(11,4))
+        for key,col in [('reference','black'),('selected',BLUE),(method,RED)]:axs[0].plot(df['raman_shift_cm-1'],df[key],label=key,color=col,lw=1)
+        for key,col in [('selected',BLUE),(method,RED)]:axs[1].plot(df['raman_shift_cm-1'],df[key+'_absolute_deviation'],label=key,color=col,lw=1)
+        for ax in axs:ax.legend(fontsize=8);ax.set_xlabel(r'Raman shift (cm$^{-1}$)')
+        axs[0].set_ylabel('Display intensity');axs[1].set_ylabel('Absolute deviation');finish(fig,f'Figure_S{num}',a.output)
+    for num in [6,7,8,10]:
+        df=frame(f'figureS{num}_data.csv');datasets=list(df.dataset_id.unique());fig,axs=plt.subplots((len(datasets)+1)//2,2,figsize=(12,3.1*((len(datasets)+1)//2)),squeeze=False)
+        for dataset,ax in zip(datasets,axs.flat):
+            sub=df[df.dataset_id==dataset]
+            if num==6:
+                sizes=sorted(sub.window_size.unique());ax.boxplot([sub[sub.window_size==k].q for k in sizes],tick_labels=sizes,showmeans=True);ax.set(xlabel='Window size K',ylabel='q')
+            elif num==7:ax.plot(sub.display_position,sub.q,'-o',ms=3);ax.set(xlabel='Window position',ylabel='q')
+            elif num==8:
+                for key,part in sub.groupby('coefficient_family'):ax.plot(part.display_position,part.coefficient_value,'-o',ms=3,label=key)
+                ax.set_xlabel('Window position');ax.legend(fontsize=8)
+            else:
+                ax.plot(sub.hidden_size,sub.mean_q,color=RED);ax.fill_between(sub.hidden_size,sub.q25,sub.q75,color=RED,alpha=.15);ax.set(xlabel='Hidden size H',ylabel='q')
+            ax.set_title(dataset,fontsize=9)
+        for ax in list(axs.flat)[len(datasets):]:ax.set_visible(False)
+        finish(fig,f'Figure_S{num}',a.output)
+    print('Saved numerical replots to',a.output)
+
+if __name__=='__main__':main()
