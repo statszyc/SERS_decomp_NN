@@ -52,4 +52,22 @@ Supporting CSVs retain full computational precision. Additional columns such as 
 
 The Figure 3 numerical source contains a compressed display coordinate for panel B. `source_y` retains the uncompressed normalized ranks. The compact release replot uses those uncompressed ranks. Publication images retain the approved axis treatment.
 
+`plot_inputs/figureS3_backgrounds.csv` supplements the original archives with the
+missing overview-background display inputs. For each dataset it records the
+Raman shift, original background intensity used by the overview renderer, and
+its display-transformed intensity. The renderer restricted the axis to
+450–1700 cm^-1, divided by the 95th percentile of absolute intensity (maximum
+absolute fallback if needed), then subtracted 0.9. These are overview inputs;
+they do not replace backgrounds in the frozen training tasks. Source filenames,
+hashes, transformation and export hash are in `metadata/plot_additions.json`.
+
+Figure 1 replotting independently area-normalizes each curve using signed
+trapezoidal integration, falling back to absolute area only when the signed
+area is near zero, and scales all curves by the maximum absolute unit-area
+reference. The numerical sources are not changed by this display transform.
+
+Figure S10's plotted `median_q` values aggregate validation windows separately
+for each dataset and H, using only base seed 42. The CSV also retains mean,
+quartiles and other diagnostics; these are not the final plotted statistic.
+
 Training and some recovery calculations used float32. Recomputing cosine similarity from decimal CSV curves with float64 may produce differences of order 1e-7. The archived primary score matrix is the authority for exact candidate ranking.

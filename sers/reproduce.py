@@ -41,7 +41,8 @@ def main():
         if split=='validation':
             assert np.allclose(q[:,order[0]],frozen['selected_q'],atol=1e-14)
             assert np.allclose(q[np.arange(n),winners],frozen['loss_q'],atol=1e-14)
-    pd.DataFrame([{'role':'Selected' if j==0 else f'Next {j}',
+    entrant_labels=['Selected','2nd entrant','3rd entrant','4th entrant','5th entrant']
+    pd.DataFrame([{'role':entrant_labels[j],
                    'theta_id':str(ids[i]),'p_entry':entry[i],
                    **g[i]['theta']} for j,i in enumerate(order[:5])]).to_csv(a.output/'Table_2.csv',index=False)
     axes=[]

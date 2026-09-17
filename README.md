@@ -11,6 +11,7 @@ The method fits an analyte-spectrum branch and a coefficient branch to ordered m
 - The final neural model, training loss, optimizer, reconstruction-loss comparator, fixed-background MCR-ALS, and prior dual-network comparator implementations.
 - Saved results and replay support for the published three-seed robustness, hidden-size, window-size, and representative ablation analyses.
 - Numerical inputs for the main and supporting figures, table-generation code, and the approved figure images.
+- A runnable synthetic example and CSV interface for fitting your own processed window.
 
 This is a final-result release. Development experiments, exploratory seed-selection workflows, obsolete grids, cluster administration scripts, and manuscript-editing tools are not included. The archived final seed and published robustness seeds remain in the package because they are needed for reproducibility; this does not imply that the final seed was prespecified.
 
@@ -48,6 +49,21 @@ The expected selections are:
 
 Both minimum entry fractions are unique. Hidden size is fixed at H = 64 in the primary grid and is not a searched grid coordinate. Machine-readable values retain their original precision.
 
+## Try your own processed spectra
+
+```bash
+python -m sers.fit_window --demo --output reproduced/demo
+python -m sers.fit_window --input my_window.csv --levels 0 1 2 --output reproduced/my_window
+```
+
+The demo exports a complete CSV input template, fitted curves, coefficients,
+metrics, and a recovery plot. The custom-data interface uses the fixed published
+configuration; an optional reference is used only after fitting. See
+[examples/README.md](examples/README.md) for the input schema and output
+conventions. Add `--epochs 2` only for a quick execution check; the default is
+the paper's 1,000 epochs. A successful smoke test is not evidence of recovery
+quality.
+
 ## Run the final models
 
 Each command below runs one task. Task indices and identities are listed in `data/validation_index.json`, `data/test_index.json`, and `data/window_size_index.json`.
@@ -70,6 +86,13 @@ python -m sers.ablation --panel B --output reproduced/ablation_B.json
 
 Training uses 1,000 epochs. CPU family, BLAS implementation, and PyTorch build can affect floating-point optimization trajectories, even with deterministic algorithms enabled. Saved-results reproduction avoids that dependency. The release checks include small synthetic execution tests and numerical verification against the archived results; the full training campaign was not rerun during packaging.
 
+**Training replay limitation:** sampled local fits execute, but do not all recover
+the archived scores. In particular, the Figure 1B Fourier-ablation fit differs
+substantially. The collected original runner and the released runner agree
+exactly in the tested local environment, but the cause of their discrepancy with
+the cluster archive has not been established. The archived curve is preserved,
+not replaced by the local fit. See [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
+
 To evaluate an explicit chunk of the final grid, use `--grid-start` and `--grid-stop` (exclusive), for example `--grid-start 0 --grid-stop 48`. A full grid contains 7,560 fits **per window**; the primary validation and test searches total 529,200 fits. No full-grid training is launched by default.
 
 ## Procedure and selection boundaries
@@ -89,7 +112,7 @@ See [DATA_DICTIONARY.md](DATA_DICTIONARY.md) for fields, units, precision, and i
 
 The supplied inputs are the exact processed arrays consumed by the final computations. They are not a complete raw-instrument archive. Experimental preprocessing and simulation-source reconstruction should not be inferred from the frozen arrays. `sliding_windows` demonstrates window construction from already-processed spectra; exact replays use the supplied frozen windows, including the original replicate-subset construction.
 
-The original figure data and model output amplitudes are distinguished from display-normalized curves. Figure 2 and Figure S1 are schematic artwork, not numerical outputs requiring a training or plotting script.
+The original figure data and model output amplitudes are distinguished from display-normalized curves. Figure 3A is data-driven and is numerically generated with B–E. S3 includes the original display-background curves as well as the before/after recovery comparison. S5/S9 include their zoom panels. S10 plots the median across validation windows for base seed 42, not a mean or a multi-seed uncertainty band. Figure 2 and Figure S1 are schematic artwork, not numerical outputs requiring a training or plotting script; the conceptual network diagrams in Figure 1A and Figure S2 are also archived separately.
 
 ## Attribution and reuse
 

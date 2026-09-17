@@ -1,0 +1,32 @@
+{
+  "scope": "Numerical plotting supplement and processed-window example",
+  "baseline_commit": "7d03113f39c6a4fa2bbcf59dc55b8707f1d220be",
+  "verification_host": "local macOS",
+  "python": "3.12",
+  "environment": "requirements.txt",
+  "clean_copy_checks": {
+    "unpack_data": "passed",
+    "unit_tests": 17,
+    "unit_test_status": "passed",
+    "saved_result_reproduction": "passed",
+    "original_archive_files_hash_verified": 70,
+    "plot_png_count": 14,
+    "plot_pdf_count": 14,
+    "synthetic_demo_epochs": 1000,
+    "synthetic_demo_status": "passed",
+    "custom_csv_two_epoch_smoke": "passed"
+  },
+  "unchanged": [
+    "data.zip",
+    "results.zip",
+    "figures.zip",
+    "sers/model.py",
+    "sers/training.py",
+    "sers/selection.py",
+    "sers/baselines.py",
+    "sers/ablation.py"
+  ],
+  "known_limitation": "Historical training is not exactly reproduced by all local replays; the Figure 1B discrepancy remains unresolved. See REPRODUCIBILITY.md.",
+  "full_training_campaign_rerun": false,
+  "manuscript_or_SI_modified": false
+}
