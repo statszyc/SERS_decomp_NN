@@ -1,0 +1,16 @@
+{
+  "validation_windows": 37,
+  "test_windows": 33,
+  "candidate_count": 7560,
+  "selected": "h64revised_theta_01308",
+  "p_entry": 0.38121693121693123,
+  "pyocyanin_selected": "h64revised_theta_02018",
+  "pyocyanin_p_entry": 0.13783068783068783,
+  "validation_loss_winners_verified": 37,
+  "test_loss_winners_verified": 33,
+  "robustness_fits": 210,
+  "hidden_size_fits": 12543,
+  "window_size_fits": 92,
+  "finite_primary_residuals": 529200,
+  "status": "passed"
+}
