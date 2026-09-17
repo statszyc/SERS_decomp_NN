@@ -37,7 +37,7 @@ python -m sers.reproduce
 python -m sers.plot_results
 ```
 
-These commands require no model fitting. They verify the complete primary candidate matrices, reproduce both selected configurations and all 70 reconstruction-loss comparator choices, export tables and summaries, and replot the numerical panels under `reproduced/`. The numerical plotting code produces compact, editable Matplotlib plots; it does not claim pixel-identical reproduction of the publication layouts. The approved publication images are supplied separately in `figures/`.
+Saved-result reproduction and plotting require no model fitting; the test suite includes tiny synthetic fits to check execution. These commands verify the complete primary candidate matrices, reproduce both selected configurations and all 70 reconstruction-loss comparator choices, export tables and summaries, and replot the numerical panels under `reproduced/`. The numerical plotting code produces compact, editable Matplotlib plots; it does not claim pixel-identical reproduction of the publication layouts. The approved publication images are supplied separately in `figures/`.
 
 The expected selections are:
 
