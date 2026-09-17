@@ -17,7 +17,13 @@ This is a final-result release. Development experiments, exploratory seed-select
 
 ## Requirements and installation
 
-Use Python 3.10–3.12 (the release checks use Python 3.12). A CPU installation is sufficient; no GPU is required. The primary computations used PyTorch 2.8.0 on AMD EPYC 9534 computing nodes at the University of Georgia, with four intra-operation threads, one inter-operation thread, and deterministic algorithms enabled. The requirements file pins a compatible environment for this release; it is not represented as a complete export of the historical cluster environment.
+The release was tested locally on macOS with Python 3.12 and the following package versions, specified in [requirements.txt](requirements.txt):
+
+- NumPy 2.0.2 and Pandas 2.2.3
+- Matplotlib 3.9.4 and SciPy 1.13.1
+- Scikit-Learn 1.5.2 and PyTorch 2.8.0
+
+The original study computations were performed on the University of Georgia cluster using AMD EPYC 9534 computing nodes and PyTorch 2.8.0, with four intra-operation threads, one inter-operation thread, and deterministic algorithms enabled. A CPU installation is sufficient; no GPU is required. Runtime and numerical training results may vary across hardware and software environments.
 
 ```bash
 git clone https://github.com/statszyc/SERS_decomp_NN.git
@@ -84,23 +90,16 @@ python -m sers.replay --analysis window --task 0 --output reproduced/window_0.js
 python -m sers.ablation --panel B --output reproduced/ablation_B.json
 ```
 
-Training uses 1,000 epochs. CPU family, BLAS implementation, and PyTorch build can affect floating-point optimization trajectories, even with deterministic algorithms enabled. Saved-results reproduction avoids that dependency. The release checks include small synthetic execution tests and numerical verification against the archived results; the full training campaign was not rerun during packaging.
-
-**Training replay limitation:** sampled local fits execute, but do not all recover
-the archived scores. In particular, the Figure 1B Fourier-ablation fit differs
-substantially. The collected original runner and the released runner agree
-exactly in the tested local environment, but the cause of their discrepancy with
-the cluster archive has not been established. The archived curve is preserved,
-not replaced by the local fit. See [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
+Training uses 1,000 epochs. Saved-result reproduction and plotting use the archived outputs without retraining. Verification scope and known differences between local training replays and the archived cluster results are documented in [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
 
 To evaluate an explicit chunk of the final grid, use `--grid-start` and `--grid-stop` (exclusive), for example `--grid-start 0 --grid-stop 48`. A full grid contains 7,560 fits **per window**; the primary validation and test searches total 529,200 fits. No full-grid training is launched by default.
 
 ## Procedure and selection boundaries
 
-1. Load a frozen processed window and remove its reference spectrum from the training input.
+1. Load a frozen processed window. The reference spectrum is not used to train network weights; it is used only to evaluate recovery after fitting.
 2. Fit the two branches using the archived task seed. All candidates within a task share that seed.
 3. For validation, compute recovery scores after fitting and rank candidates by decreasing cosine similarity. Exact score ties are ordered by candidate ID.
-4. For candidate m, compute `p_entry(m) = max_i rank_i(m) / M`. Select the minimum across the validation windows.
+4. For candidate m, compute `p_entry(m) = max_i rank_i(m) / M` across the validation windows. Select the candidate with the smallest entry fraction.
 5. In each held-out window, fit the fixed validation-selected configuration. The window-specific loss comparator minimizes the pure reconstruction residual over the same candidate grid, with candidate-ID tie breaking. It does not minimize the regularized total training loss and does not use the reference spectrum for selection.
 6. Evaluate recovery against the reference only after the fit and comparator choice.
 
