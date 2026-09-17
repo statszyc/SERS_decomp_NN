@@ -1,0 +1,28 @@
+{
+  "record_type": "release_training_check",
+  "case": "Figure 1B Fourier ablation",
+  "archived_computation": {
+    "location": "University of Georgia cluster",
+    "cpu": "AMD EPYC 9534",
+    "recovery_q": -0.4595472384187544
+  },
+  "local_check": {
+    "operating_system": "macOS",
+    "python": "3.12",
+    "numpy": "2.0.2",
+    "scipy": "1.13.1",
+    "pytorch": "2.8.0",
+    "recovery_q": 0.6877471208572388,
+    "repeat_run_curve_match": "bitwise identical",
+    "original_and_released_runner_curve_match": "bitwise identical"
+  },
+  "matched_inputs": [
+    "frozen input arrays",
+    "configuration",
+    "initialization seed",
+    "1000 training epochs"
+  ],
+  "cross_environment_cause_established": false,
+  "historical_environment_recheck_completed": false,
+  "archived_curve_and_score_preserved": true
+}

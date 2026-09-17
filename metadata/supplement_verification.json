@@ -26,7 +26,7 @@
     "sers/baselines.py",
     "sers/ablation.py"
   ],
-  "known_limitation": "Historical training is not exactly reproduced by all local replays; the Figure 1B discrepancy remains unresolved. See REPRODUCIBILITY.md.",
+  "training_check_record": "metadata/training_replay_check.json",
   "full_training_campaign_rerun": false,
   "manuscript_or_SI_modified": false
 }
