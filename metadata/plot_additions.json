@@ -1,0 +1,32 @@
+{
+  "purpose": "Exact display backgrounds omitted from the initial numerical replot",
+  "source_files": [
+    {
+      "name": "build_figure_s3_panelc_vertical_legends_v5.py",
+      "sha256": "7da5d08cbe6a2b9fd3d4dadd6c6409f8493058acdf260e66362f8973ef0275c5"
+    },
+    {
+      "name": "probe_dna_ref.csv",
+      "sha256": "2dec90abc919bea6f93114e6c37879a87c92c21967be11ef8dca453cb3a82665"
+    },
+    {
+      "name": "dmem_2.csv",
+      "sha256": "16cc155df09750493d62ea0a91f1abb0230deba132cec3e0d831a668b6307e41"
+    },
+    {
+      "name": "saliva.csv",
+      "sha256": "4f5a748ab8913939bdb7f294b8e2971aae461b0234ea2ccf03d3fa27a1015e47"
+    },
+    {
+      "name": "virus_mixture_in_saliva.csv",
+      "sha256": "54521e0b67fcbe896b9c3068dcfa2a7376e822642629a57c3bf19363fb08b6e3"
+    }
+  ],
+  "transformation": "Original renderer: restrict to 450\u20131700 cm^-1, divide by 95th percentile of absolute intensity (max-absolute fallback), subtract 0.9.",
+  "boundary": "Overview display source; not substituted for any frozen model-training background.",
+  "output": {
+    "file": "plot_inputs/figureS3_backgrounds.csv",
+    "rows": 10008,
+    "sha256": "4f12e76c2be105c875232d5fda177883deba3d3ae6b5bbce85b9e47bef30ccbc"
+  }
+}
